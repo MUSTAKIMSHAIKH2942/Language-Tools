@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sentiment Analysis</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      background-color: rgba(0, 0, 0, 0.9);
+      background-size: cover;
+      background-position: center;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      animation: fadeIn 1s ease;
+    }
+
+    .container {
+      max-width: 500px;
+      width: 90%;
+      background-color: rgba(255, 255, 255, 0.9);
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      padding: 30px;
+      box-sizing: border-box;
+      animation: slideIn 1s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes slideIn {
+      from { transform: translateY(-50px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+      color: #333;
+    }
+
+    form {
+      text-align: center;
+    }
+
+    textarea {
+      width: 100%;
+      padding: 10px;
+      font-size: 16px;
+      margin-bottom: 20px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      resize: none;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    #result {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 18px;
+      color: #333;
+    }
+
+    .menu {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      display: inline-block;
+    }
+
+    .menu button {
+      background-color: transparent;
+      color: #fff;
+      border: 1px solid #fff;
+      padding: 5px 10px;
+      margin-left: 10px;
+      transition: transform 0.3s ease;
+    }
+
+    .menu button:hover {
+      transform: translateY(-5px);
+    }
+
+    .menu ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      position: absolute;
+      background-color: #333;
+      border-radius: 6px;
+      padding: 5px 0;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s ease, visibility 0s linear 0.3s;
+    }
+
+    .menu:hover ul {
+      opacity: 1;
+      visibility: visible;
+      transition-delay: 0s;
+    }
+
+    .menu li {
+      padding: 5px 10px;
+    }
+
+    .menu li a {
+      color: #fff;
+      text-decoration: none;
+      display: block;
+    }
+
+    .menu li a:hover {
+      background-color: #555;
+      border-radius: 3px;
+    }
+
+    @media screen and (max-width: 600px) {
+      .container {
+        width: 95%;
+      }
+    }
+    /* CSS styles */
+    .back-button {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+
+        .back-button:hover {
+            background-color: #0056b3;
+        }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Sentiment Analysis for Social Media Posts</h1>
+    <!-- <div class="menu">
+      <button>Menu</button>
+      <ul>
+        <li><a href="/sentiment-analysis">Sentiment Analysis</a></li>
+        <li><a href="/language-detection">Language Detection</a></li>
+      </ul> -->
+    <!-- </div> -->
+    <form id="sentimentForm">
+      <textarea id="postInput" rows="4" placeholder="Enter your social media post..."></textarea><br>
+      <button type="submit">Analyze</button>
+      <a href="/" class="back-button">Back to Home</a>
+    </form>
+    <div id="result"></div>
+  </div>
+
+  <script>
+    document.getElementById('sentimentForm').addEventListener('submit', function(event) {
+      event.preventDefault();
+      const post = document.getElementById('postInput').value;
+      
+      // Send the input text to language detection route
+      fetch('/language-detection', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ post: post })
+      })
+      .then(response => response.json())
+      .then(data => {
+        // Display the detected language
+        document.getElementById('result').innerText = `Detected Language: ${data.language}`;
+      })
+      .catch(error => console.error('Error:', error));
+    });
+  </script>
+</body>
+</html>
