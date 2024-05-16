@@ -181,7 +181,7 @@
       const post = document.getElementById('postInput').value;
       
       // Send the input text to language detection route
-      fetch('/language-detection', {
+      fetch('/analyze', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -190,8 +190,8 @@
       })
       .then(response => response.json())
       .then(data => {
-        // Display the detected language
-        document.getElementById('result').innerText = `Detected Language: ${data.language}`;
+        // Display the detected sentiment
+        document.getElementById('result').innerText = `Detected Sentiment: ${data.sentiment}`;
       })
       .catch(error => console.error('Error:', error));
     });
